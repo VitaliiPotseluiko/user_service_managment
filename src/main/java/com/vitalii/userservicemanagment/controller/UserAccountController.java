@@ -44,9 +44,9 @@ public class UserAccountController {
 
     @GetMapping("/{id}")
     public String getUserById(@PathVariable Long id, Model model) {
-        List<UserAccountResponseDto> users = List.of(mapper.toDto(userAccountService.getById(id)));
-        model.addAttribute("users", users);
-        return "user";
+        UserAccountResponseDto user = mapper.toDto(userAccountService.getById(id));
+        model.addAttribute("user", user);
+        return "certainUser";
     }
 
     @GetMapping("/new")
@@ -97,6 +97,19 @@ public class UserAccountController {
             return "/message";
         }
         userAccountService.update(userAccount);
+        return "redirect:/user";
+    }
+
+    @PostMapping("/block/{id}")
+    public String blockUser(@PathVariable Long id) {
+        UserAccount userAccount = userAccountService.getById(id);
+        if (userAccount.getStatus() == UserAccount.Status.ACTIVE) {
+            userAccount.setStatus(UserAccount.Status.INACTIVE);
+            userAccountService.update(userAccount);
+        } else {
+            userAccount.setStatus(UserAccount.Status.ACTIVE);
+            userAccountService.update(userAccount);
+        }
         return "redirect:/user";
     }
 
