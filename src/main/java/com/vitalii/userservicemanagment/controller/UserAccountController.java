@@ -125,21 +125,6 @@ public class UserAccountController {
 
     private List<String> checkCreatedUserAccount(UserAccount userAccount) {
         List<String> messages = checkEditedUserAccount(userAccount);
-        //if (!validator.isLatinLetter(userAccount.getFirstName())
-        //        || !validator.isValidSize(userAccount.getFirstName())) {
-        //    messages.add(String.format(MESSAGE_PATTERN, "First name", userAccount.getFirstName()));
-        //}
-//
-        //if (!validator.isLatinLetter(userAccount.getLastName())
-        //        || !validator.isValidSize(userAccount.getLastName())) {
-        //    messages.add(String.format(MESSAGE_PATTERN, "Last name", userAccount.getLastName()));
-        //}
-//
-        //if (!validator.isLatinLetter(userAccount.getUsername())
-        //        || !validator.isValidSize(userAccount.getUsername())) {
-        //    messages.add(String.format(MESSAGE_PATTERN, "User name", userAccount.getUsername()));
-        //}
-
         if (!validator.isPassword(userAccount.getPassword())) {
             messages.add("Incorrect password." +
                     " Password has to contain at least 1 digit, 1 spec symbol and 1 latin letter");
