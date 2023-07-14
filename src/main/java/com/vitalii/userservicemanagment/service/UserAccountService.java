@@ -11,6 +11,7 @@ public interface UserAccountService {
     List<UserAccount> getAllUserAccounts();
 
     UserAccount getById(Long id);
+    UserAccount findByUsername(String username);
 
     boolean isExist(UserAccount userAccount);
 }
