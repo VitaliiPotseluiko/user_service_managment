@@ -1,6 +1,6 @@
 package com.vitalii.userservicemanagment.service.impl;
 
-import com.vitalii.userservicemanagment.exception.AuthenticationException;
+import com.vitalii.userservicemanagment.exception.CustomAuthenticationException;
 import com.vitalii.userservicemanagment.model.UserAccount;
 import com.vitalii.userservicemanagment.repository.UserAccountRepository;
 import com.vitalii.userservicemanagment.service.AuthenticationService;
@@ -16,21 +16,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserAccount login(String username, String password) throws AuthenticationException {
+    public UserAccount login(String username, String password) throws CustomAuthenticationException {
         Optional<UserAccount> optionalUserAccount = userAccountRepository.findByUsername(username);
         UserAccount userAccount;
         if (optionalUserAccount.isEmpty()) {
-            throw new AuthenticationException("Your password or username are incorrect!");
+            throw new CustomAuthenticationException("Your password or username are incorrect!");
         }
         userAccount = optionalUserAccount.get();
         if (userAccount.getStatus() == UserAccount.Status.INACTIVE) {
-                throw new AuthenticationException("Sorry! User : " + userAccount.getUsername()
+                throw new CustomAuthenticationException("Sorry! User : " + userAccount.getUsername()
                         + " was blocked by Admin!");
         }
         if (!passwordEncoder.matches(password, userAccount.getPassword())) {
-            throw new AuthenticationException("Your password or username incorrect!");
+            throw new CustomAuthenticationException("Your password or username incorrect!");
         }
-        System.out.println("OK!!!");
         return userAccount;
     }
 }

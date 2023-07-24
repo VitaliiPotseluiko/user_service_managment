@@ -22,13 +22,15 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
 
+    private final CustomFailureHandler customFailureHandler;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
-                                auth.requestMatchers("/login", "/register")
+                                auth.requestMatchers("/login", "/authenticate")
                                         .permitAll()
                                         .requestMatchers(HttpMethod.GET,
                                                 "/user",
@@ -47,8 +49,9 @@ public class SecurityConfig {
                                         .authenticated())
                 .formLogin()
                 .loginPage("/login")
-                //.loginProcessingUrl("/login")
+                .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/user", true)
+                .failureHandler(customFailureHandler)
                 .permitAll()
         ;
         return http.build();
