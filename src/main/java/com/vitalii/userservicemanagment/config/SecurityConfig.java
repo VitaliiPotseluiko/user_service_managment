@@ -6,23 +6,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final PasswordEncoder passwordEncoder;
-    private final UserDetailsService userDetailsService;
-
-    private final CustomFailureHandler customFailureHandler;
+    //private final PasswordEncoder passwordEncoder;
+    //private final UserDetailsService userDetailsService;
+    private final AuthenticationProvider customAuthenticationProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,7 +28,7 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
-                                auth.requestMatchers("/login", "/authenticate")
+                                auth.requestMatchers("/login", "/register")
                                         .permitAll()
                                         .requestMatchers(HttpMethod.GET,
                                                 "/user",
@@ -49,9 +47,8 @@ public class SecurityConfig {
                                         .authenticated())
                 .formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/user", true)
-                .failureHandler(customFailureHandler)
+                //.loginProcessingUrl("/login")
+                //.defaultSuccessUrl("/user", true)
                 .permitAll()
         ;
         return http.build();
@@ -66,6 +63,7 @@ public class SecurityConfig {
 
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        //auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        auth.authenticationProvider(customAuthenticationProvider);
     }
 }
