@@ -3,6 +3,7 @@ package com.vitalii.userservicemanagment.controller;
 import com.vitalii.userservicemanagment.exception.CustomAuthenticationException;
 import com.vitalii.userservicemanagment.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

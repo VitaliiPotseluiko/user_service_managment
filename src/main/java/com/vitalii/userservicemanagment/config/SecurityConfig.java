@@ -1,5 +1,6 @@
 package com.vitalii.userservicemanagment.config;
 
+import com.vitalii.userservicemanagment.provider.CustomAuthenticationManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ public class SecurityConfig {
     //private final PasswordEncoder passwordEncoder;
     //private final UserDetailsService userDetailsService;
     private final AuthenticationProvider customAuthenticationProvider;
+    private final CustomAuthenticationManager customAuthenticationManager;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -58,7 +60,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration authenticationConfiguration
     ) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+        return customAuthenticationManager;
     }
 
     @Autowired

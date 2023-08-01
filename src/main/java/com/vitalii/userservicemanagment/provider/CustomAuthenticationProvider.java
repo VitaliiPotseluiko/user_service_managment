@@ -1,7 +1,5 @@
 package com.vitalii.userservicemanagment.provider;
 
-import com.vitalii.userservicemanagment.controller.AuthenticationController;
-import com.vitalii.userservicemanagment.exception.CustomAuthenticationException;
 import com.vitalii.userservicemanagment.service.impl.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -12,7 +10,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 
 @Component
 @RequiredArgsConstructor
